@@ -1,0 +1,30 @@
+---
+title: "Untitled"
+author: "Anson Ekau"
+date: "2023-07-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(shiny)
+library(flexdashboard)
+library(tidyverse)
+library(here)
+library(plotly)
+library(ggiraph)
+library(rsconnect)
+library(janitor)
+```
+
+```{r Read in, warning=FALSE}
+nd_data <- read_csv(here("data/nd-gain-data/joined_data/nd-gain-joined.csv"))
+```
+
+Expand data using pivot_wider()
+```{r expand data}
+nd_data <- pivot_wider(nd_data, names_from = indicator, values_from = value)
+```
+
+
