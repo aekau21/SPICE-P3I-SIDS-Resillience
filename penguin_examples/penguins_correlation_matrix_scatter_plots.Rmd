@@ -21,6 +21,7 @@ library(tidyverse) # allows us to do lots of fundamental data science tasks (ex.
 library(ggcorrplot) # allows us to make correlation plots
 library(plotly) # allows us to make ggplot objects interactive
 library(janitor) # allows us to clean the column names of our dataframe
+library(ggthemes)
 ```
 
 Here is where we read in our data
@@ -37,7 +38,7 @@ penguins_data <- read_csv(here("data/penguins_data/penguins_lter.csv"))
 Clean column names of the dataframe using the clean_names function from the janitor package
 
 - The %>% is called a "pipe". This allows us to make a new dataframe from an existing dataframe and apply new analysis techniques
-  - The keyboard shortcut for a pipe is "command + shift + i"
+  - The keyboard shortcut for a pipe is "control + shift + m"
 
 ```{r}
 penguins_data <- penguins_data %>% 
@@ -71,7 +72,7 @@ This looks good, now let's clean this up and look at body mass by species of pen
 ggplot(data = penguins_data, aes(x = body_mass_g,
                                  fill = species)) +
   geom_histogram(color = "black") +
-  theme_minimal() +
+  theme_wsj() +
   labs(title = "Penguins, Palmer Station LTER",
        subtitle = "Body Mass Distribution for Adelie, Chinstrap and Gentoo Penguins",
        x = "Body mass (g)",
@@ -85,7 +86,9 @@ Now let's look at the relationship between flipper length and body mass with a s
 ```{r}
 ggplot(data = penguins_data, aes(x = flipper_length_mm, 
                                  y = body_mass_g)) +
-         geom_point()
+         geom_point()+
+  geom_smooth() +
+  theme_wsj()
 ```
 It looks like there is a strong positive correlation between body mass and flipper length
 - Let's add some variables from the dataset
@@ -108,6 +111,7 @@ ggplot(data = penguins_data, aes(x = flipper_length_mm,
        color = "Penguin species",
        shape = "Penguin sex") +
   theme(axis.text.x = element_text(angle = 45)) +
+  theme_wsj() +
   facet_grid(~island)
 ```
 
@@ -130,8 +134,8 @@ Plot the correlation matrix
 
 ```{r}
 corrplot <- ggcorrplot(cor_matrix, type = "lower", outline.color = "white") +
-  theme(axis.text.x = element_text(size = 3),
-        axis.text.y = element_text(size = 3))
+  theme(axis.text.x = element_text(size = 10, angle = -90),
+        axis.text.y = element_text(size = 10))
 corrplot
 ```
 Make the correlation plot interactive
